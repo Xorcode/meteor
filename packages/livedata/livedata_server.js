@@ -430,7 +430,7 @@ _.extend(Session.prototype, {
         "livedata", "sessions", -1);
 
       Meteor.defer(function () {
-        // stop callbacks can yield, so we defer this on destroy.
+        // stop callbacks can yield, so we defer this on close.
         // sub._isDeactivated() detects that we set inQueue to null and
         // treats it as semi-deactivated (it will ignore incoming callbacks, etc).
         self._deactivateAllSubscriptions();
@@ -441,10 +441,10 @@ _.extend(Session.prototype, {
           callback();
         });
       });
-    }
 
-    // Unregister the session.
-    self.server._removeSession(self);
+      // Unregister the session.
+      self.server._removeSession(self);
+    }
   },
 
   // Send a message (doing nothing if no socket is connected right now.)
